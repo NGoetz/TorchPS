@@ -35,7 +35,7 @@ class VirtualPhaseSpaceGenerator(object):
         self.pdf_active      = pdf_active
         self.tau             = tau
         if self.pdf_active:
- 		if lhapdf_dir not in sys.path:
+            if lhapdf_dir not in sys.path:
                 	sys.path.append(lhapdf_dir)
         	import lhapdf
                     
