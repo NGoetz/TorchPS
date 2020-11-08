@@ -95,8 +95,9 @@ class FlatInvertiblePhasespace(VirtualPhaseSpaceGenerator):
             return math.pow(2*math.pi, 4-3*n)*math.pow((math.pi/2.0),n-1)*\
                 (math.pow((E_cm**2),n-2)/(math.factorial(n-1)*math.factorial(n-2)))
         else:
-            return math.pow(2*math.pi, 4-3*n)*math.pow((math.pi/2.0),n-1)*\
-                (torch.pow((E_cm**2),n-2)/(math.factorial(n-1)*math.factorial(n-2)))
+            E_cm=E_cm.float()
+            return (math.pow(2*math.pi, 4-3*n)*math.pow((math.pi/2.0),n-1)*\
+                (torch.pow((E_cm**2),n-2)/(math.factorial(n-1)*math.factorial(n-2)))).long()
     
    
     
