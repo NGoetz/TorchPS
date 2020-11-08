@@ -36,8 +36,8 @@ class VirtualPhaseSpaceGenerator(object):
         self.tau             = tau
         if self.pdf_active:
             if lhapdf_dir not in sys.path:
-                	sys.path.append(lhapdf_dir)
-        	import lhapdf
+                sys.path.append(lhapdf_dir)
+            import lhapdf
                     
        
       
@@ -95,9 +95,9 @@ class FlatInvertiblePhasespace(VirtualPhaseSpaceGenerator):
             return math.pow(2*math.pi, 4-3*n)*math.pow((math.pi/2.0),n-1)*\
                 (math.pow((E_cm**2),n-2)/(math.factorial(n-1)*math.factorial(n-2)))
         else:
-            E_cm=E_cm.float()
+            E_cm=E_cm.to(torch.float)
             return (math.pow(2*math.pi, 4-3*n)*math.pow((math.pi/2.0),n-1)*\
-                (torch.pow((E_cm**2),n-2)/(math.factorial(n-1)*math.factorial(n-2)))).long()
+                (torch.pow((E_cm**2),n-2)/(math.factorial(n-1)*math.factorial(n-2))))
     
    
     
@@ -371,7 +371,7 @@ class FlatInvertiblePhasespace(VirtualPhaseSpaceGenerator):
         
         for i in range(2, self.n_final):
             M_t[:,i-1] = torch.sqrt(u[:,i-2]*(M_t[:,i-2]**2))
-        if not torch.is_tensor(E_cm):
+        if (not torch.is_tensor(E_cm) or len(E_cm.size())==0 ):
             return torch.tensor([self.get_flatWeights(E_cm,self.n_final)]*random_variables.shape[0],
                             dtype=torch.double, device=random_variables.device)
         else:
@@ -421,7 +421,7 @@ class FlatInvertiblePhasespace(VirtualPhaseSpaceGenerator):
                     output_momenta[:,0,:] = torch.tensor([E_cm/2.0 , 0., 0., +E_cm/2.0],dtype=torch.double, device=output_momenta[0].device)
                     output_momenta[:,1,:] = torch.tensor([E_cm/2.0 , 0., 0., -E_cm/2.0],dtype=torch.double, device=output_momenta[0].device)
                 else:
-                    E_cm_p=E_cm.unsqueeze(-1)
+                    E_cm_p=E_cm.unsqueeze(-1).float()
                     output_momenta[:,0,:]=torch.cat((E_cm_p/2, torch.zeros_like(E_cm_p),torch.zeros_like(E_cm_p), 1*E_cm_p/2),-1)
                     output_momenta[:,1,:]=torch.cat((E_cm_p/2, torch.zeros_like(E_cm_p),torch.zeros_like(E_cm_p), -1*E_cm_p/2),-1)
             else:
