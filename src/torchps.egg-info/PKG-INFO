@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: torchps
-Version: 1.0.10
+Version: 1.0.1
 Summary: Phase Space Sampling with PyTorch
 Home-page: https://github.com/NGoetz/TorchPS
 Author: Niklas Götz
